@@ -1,7 +1,7 @@
 <template>
   <section class="h-[90vh] px-28 py-16 bg-[#E5E5E5]">
     <section class="flex justify-between items-center">
-      <h1 class="text-3xl font-bold underline">
+      <h1 class="text-3xl font-bold">
         Activity
       </h1>
       <button
