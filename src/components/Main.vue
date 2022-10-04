@@ -13,25 +13,7 @@
       </button>
     </section>
     <section class="py-10">
-      <div v-if="data.length > 0" class="grid grid-cols-4 gap-4">
-        <div
-          v-for="(d, dKey) in data"
-          :key="dKey"
-          class="flex flex-col justify-between h-[234px] my-3 bg-white p-5 rounded-lg shadow-md cursor-pointer"
-        >
-          <div>
-            <h3 class="font-bold text-xl">{{ d.title }}</h3>
-          </div>
-          <div class="flex justify-between items-center">
-            <span class="text-gray-400">{{ dateFormat(d.created_at) }}</span>
-            <button
-              @click="(showDelete = { id: d.id, title: d.title, value: true })"
-            >
-              <img src="/i-trash.svg" alt="icon-trash">
-            </button>
-          </div>
-        </div>
-      </div>
+      <ActivityCard v-if="data.length > 0" :data="data" @deleteData="deleteData" />
       <img v-else class="mx-auto" src="/activity-empty-state.svg" alt="empty-data">
     </section>
 
@@ -46,10 +28,10 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted, watch } from "vue";
-import moment from "moment";
 import { ACTIVITY } from "../store/enums";
 import { useStore } from "vuex";
 import DeleteDialog from "../components/dialogs/DeleteDialog.vue";
+import ActivityCard from "../components/general/ActivityCard.vue";
 import { sortDate } from "../core/Helpers"
 import _ from "lodash";
 
@@ -66,7 +48,7 @@ interface deleteDialog {
 }
 
 export default defineComponent({
-  components: { DeleteDialog },
+  components: { DeleteDialog, ActivityCard },
   setup() {
     const data = ref<Activity[]>([]);
     const store = useStore();
@@ -85,11 +67,13 @@ export default defineComponent({
       }
     );
 
-    const dateFormat = (date: any) => moment(date).format("DD MMMM YYYY");
-
     const onClose = (isRefresh: boolean) => {
       if (isRefresh) loadData()
       showDelete.value.value = false;
+    };
+
+    const deleteData = (data: any) => {
+      showDelete.value = { id: data.id, title: data.title, value: true }
     };
 
     const loadData = () => {
@@ -112,7 +96,7 @@ export default defineComponent({
       data,
       showDelete,
       onClose,
-      dateFormat,
+      deleteData,
       addNewActivity,
     };
   },
