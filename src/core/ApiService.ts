@@ -40,7 +40,7 @@ class ApiService {
    * @returns Promise<AxiosResponse>
    */
   public static get(
-    resource: number,
+    resource: string,
     slug = "" as string
   ): Promise<AxiosResponse> {
     return ApiService.vueInstance.axios

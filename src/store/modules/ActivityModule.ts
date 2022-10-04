@@ -19,7 +19,7 @@ export default class ActivityModule extends VuexModule {
   }
 
   @Action({ rawError: true })
-  [ACTIVITY.GET_ONE](id: number) {
+  [ACTIVITY.GET_ONE](id: any) {
     return new Promise<void>((resolve, reject) => {
       ApiService.get(`/activity-groups`, id)
         .then(({ data }) => {
