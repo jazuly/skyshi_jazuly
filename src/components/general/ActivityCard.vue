@@ -4,6 +4,7 @@
       v-for="(d, dKey) in data"
       :key="dKey"
       class="flex flex-col justify-between h-[234px] my-3 bg-white p-5 rounded-lg shadow-md cursor-pointer"
+      @click="router.push({ name: NAME.DETAIL, params: { id: d.id } })"
     >
       <div>
         <h3 class="font-bold text-xl">{{ d.title }}</h3>
@@ -23,6 +24,8 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import moment from "moment";
+import { useRouter } from 'vue-router';
+import { NAME } from "../../routers/enums"
 
 export default defineComponent({
   props: {
@@ -32,11 +35,14 @@ export default defineComponent({
     }
   },
 
-  setup(_, context) {
+  setup() {
+    const router = useRouter();
     const dateFormat = (date: any) => moment(date).format("DD MMMM YYYY");
 
     return {
       dateFormat,
+      router,
+      NAME
     };
   },
 })

@@ -66,6 +66,24 @@ class ApiService {
   }
 
   /**
+   * @description send the UPDATE HTTP request
+   * @param resource: string
+   * @param slug: string
+   * @param params: AxiosRequestConfig
+   * @returns Promise<AxiosResponse>
+   */
+  public static patch(
+    resource: string,
+    slug: string,
+    params: any,
+    config?: AxiosRequestConfig | undefined
+  ): Promise<AxiosResponse> {
+    return ApiService.vueInstance.axios
+      .patch(`${resource}/${slug}`, params, config)
+      .catch((err: any) => Promise.reject(err))
+  }
+
+  /**
    * @description Send the PUT HTTP request
    * @param resource: string
    * @param params: AxiosRequestConfig

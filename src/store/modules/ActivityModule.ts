@@ -52,6 +52,20 @@ export default class ActivityModule extends VuexModule {
   }
 
   @Action({ rawError: true })
+  [ACTIVITY.UPDATE_DATA](payload: any) {
+    return new Promise<void>((resolve, reject) => {
+      ApiService.patch(`/activity-groups`, payload.id, payload)
+        .then(({ data }) => {
+          return resolve(data);
+        })
+        .catch((err) => {
+          toastError(err.message)
+          return reject(err);
+        });
+    });
+  }
+
+  @Action({ rawError: true })
   [ACTIVITY.DELETE_DATA](id: number) {
     return new Promise<void>((resolve, reject) => {
       ApiService.delete(`/activity-groups/${id}`)
