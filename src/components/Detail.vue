@@ -125,7 +125,6 @@ export default defineComponent({
     };
 
     const deleteData = (data: any) => {
-      console.log(data)
       showDelete.value = { id: data.id, title: data.title, value: true }
     };
 
@@ -143,18 +142,7 @@ export default defineComponent({
         .then((res) => {
           if (res) {
             form.value.title = res.title;
-            data.value = {
-              id: res.id,
-              title: res.title,
-              todo_items: res.todo_items.map((dt: any) => {
-                return {
-                  id: dt.id,
-                  title: dt.title,
-                  is_active: dt.is_active,
-                  priority: dt.priority,
-                }
-              })
-            }
+            data.value = res
           }
         })
     };
