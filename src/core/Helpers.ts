@@ -11,6 +11,29 @@ export const toastError = (msg: string) => {
   return ElMessage.error(msg);
 };
 
+export const priorityColor = (priority: string) => {
+  switch (priority) {
+    case "very-high":
+      
+      return "bg-red-500";
+  
+      case "high":
+      
+      return "bg-amber-500";
+  
+      case "normal":
+      
+      return "bg-lime-500";
+  
+      case "low":
+      
+      return "bg-cyan-500";
+  
+    default:
+      return "bg-violet-500";
+  }
+}
+
 export const sortString = (
   data: any,
   column: string,
@@ -48,8 +71,8 @@ export const sortDate = (
   type: string
 ) => {
   return data.sort((a: any, b: any) => {
-    let fa = a.created_at,
-        fb = b.created_at;
+    let fa = a[column],
+        fb = b[column];
 
     if (type === 'asc') {
       if (new Date(fa) < new Date(fb)) {
@@ -74,7 +97,8 @@ export const sortDate = (
 }
 
 export default {
-  toastSuccess,
   toastError,
   sortString,
+  toastSuccess,
+  priorityColor,
 };

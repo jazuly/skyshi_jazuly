@@ -6,4 +6,10 @@ enum ACTIVITY {
   UPDATE_DATA = "updateData"
 }
 
-export { ACTIVITY };
+enum TODO {
+  CREATE = "createTodo",
+  UPDATE_DATA = "updateDataToDo",
+  DELETE_DATA = "deleteDataToDo",
+}
+
+export { ACTIVITY, TODO };

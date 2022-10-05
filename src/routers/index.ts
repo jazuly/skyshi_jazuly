@@ -8,6 +8,7 @@ import { NAME } from "./enums";
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
+    name: NAME.INDEX,
     component: () =>
       import(/* webpackChunkName: "index" */ "../components/Main.vue"),
   },
