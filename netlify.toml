@@ -1,4 +1,4 @@
 [build.environment]
   NPM_FLAGS = "--version"
 [build]
-  command = "npm i -g pnpm && pnpm build"
+  command = "npm i -g pnpm --store=node_modules/.pnpm-store && pnpm build"
