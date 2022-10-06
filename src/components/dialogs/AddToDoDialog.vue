@@ -19,23 +19,43 @@
       <section>
         <div class="mb-2">
           <label class="font-bold text-xs">NAMA LIST ITEM</label>
-          <el-input class="w-full" v-model="form.title" autocomplete="off" />
+          <el-input class="w-full" size="large" v-model="form.title" autocomplete="off" />
         </div>
         <div class="mt-2">
           <label class="font-bold text-xs">PRIORITY</label>
-          <el-select class="w-full" v-model="form.priority" placeholder="Please select a zone">
-              <el-option
-                v-for="(prio, pKey) in priorities"
-                :key="pKey"
-                :label="prio.label"
-                :value="prio.value"
-              >
-              <div class="flex items-center">
-                <div class="rounded-full w-2 h-2 mr-2" :class="priorityColor(prio.value)" />
-                <span>{{ prio.label }}</span>
-              </div>
-              </el-option>
-            </el-select>
+          <el-dropdown
+            class="w-full"
+            trigger="click"
+            @command="handleCommand"
+            @visible-change="handleVisible"
+          >
+            <button class="p-3 border rounded-md w-48 button-dropdown">
+              <section class="flex justify-between items-center">
+                <div class="flex items-center">
+                  <div class="rounded-full w-2 h-2 mr-2" :class="priorityColor(form.priority)" />
+                  <span>{{ getPrioLabel(form.priority) }}</span>
+                </div>
+                <img class="transition-all" :class="isActiveDropdown && 'rotate-img'" src="/i-bottom-arrow.svg" alt="icon-bottom">
+              </section>
+            </button>
+            <template #dropdown>
+              <el-dropdown-menu class="w-48">
+                <el-dropdown-item
+                  v-for="(prio, pKey) in priorities"
+                  :key="pKey"
+                  :command="prio.value"
+                >
+                  <section class="flex justify-between items-center w-full">
+                    <div class="flex items-center">
+                      <div class="rounded-full w-2 h-2 mr-2" :class="priorityColor(prio.value)" />
+                      <span>{{ prio.label }}</span>
+                    </div>
+                    <img v-show="prio.value === form.priority" src="/i-checked.svg" alt="icon-checked">
+                  </section>
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
         </div>
       </section>
       <template #footer>
@@ -83,10 +103,11 @@ export default defineComponent({
   setup(prop, context) {
     const store = useStore();
     const route = useRoute();
+    const isActiveDropdown = ref(false);
     const form = ref<Form>({
       id: 0,
       activity_group_id: 0,
-      priority: "",
+      priority: "very-high",
       title: "",
     });
     const priorities = ref([
@@ -106,13 +127,34 @@ export default defineComponent({
       form.value = {
         id: prop.data?.id ?? 0,
         activity_group_id: 0,
-        priority: prop.data?.priority ?? "",
+        priority: prop.data?.priority ?? "very-high",
         title: prop.data?.title ?? "",
       }
     }
 
+    const getPrioLabel = (value: string) => {
+      const getPrio = priorities.value
+        .find((d: any) => d.value === value);
+
+      if (getPrio) {
+        return getPrio.label
+      }
+    };
+
+    const handleVisible = (isVisible: any) => {
+      if (isVisible) {
+        isActiveDropdown.value = true;
+      } else {
+        isActiveDropdown.value = false;
+      }
+    };
+
     const closeModal = () => {
       context.emit("onClose", false);
+    };
+
+    const handleCommand = (command: string) => {
+      form.value.priority = command;
     };
 
     const addTodo = () => {
@@ -136,7 +178,11 @@ export default defineComponent({
       addTodo,
       resetData,
       closeModal,
+      getPrioLabel,
+      isActiveDropdown,
+      handleVisible,
       priorityColor,
+      handleCommand,
     };
   },
 });
@@ -146,5 +192,8 @@ export default defineComponent({
 ::v-deep(.el-dialog__body) {
   padding-top: 10px;
   padding-bottom: 10px;
+}
+.rotate-img {
+  rotate: 180deg;
 }
 </style>

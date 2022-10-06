@@ -1,7 +1,7 @@
 <template>
   <section>
     <section class="flex justify-between items-center">
-      <div class="flex items-center" :class="[isEditTitle && 'w-full']">
+      <div class="flex items-center" :class="[isEditTitle && 'w-10/12']">
         <img
           class="my-auto mr-5 cursor-pointer"
           src="/i-left-arrow.svg"
@@ -11,15 +11,45 @@
         <input
           v-if="isEditTitle"
           ref="input"
-          class="p-2 mr-5 bg-transparent border-b focus-visible:outline-none border-black w-full font-bold text-3xl"
+          class="p-2 bg-transparent border-b focus-visible:outline-none border-black w-full font-bold text-3xl"
           type="text"
           v-model="form.title"
           @blur="(isEditTitle = false)"
         >
         <div v-else class="pr-5 font-bold text-3xl">{{ data?.title }}</div>
-        <button class="mr-5" @click="isEditTitle = !isEditTitle"><img class="my-auto" src="/i-pencil.svg" alt="icon-pencil"></button>
+        <button class="mr-5" @click="isEditTitle = !isEditTitle">
+          <img class="my-auto" src="/i-pencil.svg" alt="icon-pencil">
+        </button>
       </div>
-      <div>
+      <div class="flex items-center">
+        <el-dropdown
+          trigger="click"
+          @command="handleCommand"
+        >
+          <button
+            class="p-2 text-white font-bold rounded-full flex border border-slate-400 mr-2"
+          >
+            <img src="/i-sorting.svg" alt="icon-sorting">
+          </button>
+          <template #dropdown>
+            <el-dropdown-menu class="w-48">
+              <el-dropdown-item
+                v-for="(sort, pKey) in sortings"
+                :key="pKey"
+                :command="sort"
+              >
+                <section class="flex justify-between items-center w-full">
+                  <div class="flex items-center">
+                    <img :src="`/${sort.icon}`" :alt="`icon-${sort.label}`" class="mr-3">
+                    <span>{{ sort.label }}</span>
+                  </div>
+                  <img v-show="sort.label === selectedSort.label" src="/i-checked.svg" alt="icon-checked">
+                </section>
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+        
         <button
           class="bg-[#16ABF8] py-2 px-5 text-white font-bold rounded-full flex"
           @click="(showAdd = true)"
@@ -59,6 +89,8 @@ import DeleteToDoDialog from "../components/dialogs/DeleteTodoDialog.vue";
 import ToDoCard from "../components/general/ToDoCard.vue";
 import { useRouter } from 'vue-router';
 import { NAME } from "../routers/enums"
+import { sortString } from "../core/Helpers"
+import _ from "lodash";
 
 interface Form {
   id: number,
@@ -94,6 +126,14 @@ export default defineComponent({
     const input = ref();
     const showAdd = ref(false);
     const form = ref<Form>({ id: 0, title: null });
+    const selectedSort = ref({ icon: "i-sort-new.svg", label: "Terbaru", column: "id", type: "asc" })
+    const sortings = ref([
+      { icon: "i-sort-new.svg", label: "Terbaru", column: "id", type: "asc" },
+      { icon: "i-sort-old.svg", label: "Terlama", column: "id", type: "desc" },
+      { icon: "i-sort-a.svg", label: "A-Z", column: "title", type: "desc" },
+      { icon: "i-sort-z.svg", label: "Z-A", column: "title", type: "asc" },
+      { icon: "i-sorting-blue.svg", label: "Belum Selesai", column: "is_active", type: "asc" },
+    ])
     const showDelete = ref<deleteDialog>({
       value: false,
       title: "",
@@ -106,6 +146,13 @@ export default defineComponent({
     });
 
     onMounted(() => loadData());
+
+    watch(
+      () => _.cloneDeep(data.value.todo_items),
+      () => {
+        sortString(data.value.todo_items, selectedSort.value.column, selectedSort.value.type)
+      }
+    );
 
     watch(
       () => isEditTitle.value,
@@ -122,6 +169,11 @@ export default defineComponent({
       if (isRefresh) loadData()
       showAdd.value = false;
       showDelete.value.value = false;
+    };
+
+    const handleCommand = (sortData: any) => {
+      selectedSort.value = sortData;
+      sortString(data.value.todo_items, sortData.column.toString(), sortData.type)
     };
 
     const deleteData = (data: any) => {
@@ -154,12 +206,15 @@ export default defineComponent({
       input,
       router,
       showAdd,
+      sortings,
       showDelete,
       isEditTitle,
+      selectedSort,
       onClose,
       loadData,
       deleteData,
       updateTitle,
+      handleCommand,
     };
   },
 });

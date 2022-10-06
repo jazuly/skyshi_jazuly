@@ -40,28 +40,14 @@ export const sortString = (
   type: string
 ) => {
   return data.sort((a: any, b: any) => {
-    let fa = a[column].toLowerCase(),
-        fb = b[column].toLowerCase();
+    let fa = a[column].toString().toLowerCase(),
+        fb = b[column].toString().toLowerCase();
 
     if (type === 'asc') {
-      if (fa < fb) {
-        return 1;
-      }
-      
-      if (fa > fb) {
-        return -1;
-      }
+      return -fa.localeCompare(fb)
     } else {
-      if (fa < fb) {
-        return -1;
-      }
-  
-      if (fa > fb) {
-        return 1;
-      }
+      return fa.localeCompare(fb)
     }
-
-    return 0;
   });
 }
 
