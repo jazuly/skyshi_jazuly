@@ -1,2 +1,4 @@
 [build.environment]
   NPM_FLAGS = "--version"
+[build]
+  command = "npm i -g pnpm && pnpm build"
