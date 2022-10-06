@@ -1,10 +1,11 @@
 <template>
   <section>
     <section class="flex justify-between items-center">
-      <h1 class="text-3xl font-bold">
+      <h1 class="text-3xl font-bold" data-cy="activity-title">
         Activity
       </h1>
       <button
+        data-cy="activity-add-button"
         class="bg-[#16ABF8] py-2 px-5 text-white font-bold rounded-full flex"
         @click="addNewActivity"
       >
@@ -14,7 +15,7 @@
     </section>
     <section class="py-10">
       <ActivityCard v-if="data.length > 0" :data="data" @deleteData="deleteData" />
-      <img v-else class="mx-auto" src="/activity-empty-state.svg" alt="empty-data">
+      <img v-else class="mx-auto" src="/activity-empty-state.svg" alt="empty-data" data-cy="activity-empty-state">
     </section>
 
     <DeleteDialog

@@ -4,14 +4,16 @@
       v-for="(d, dKey) in data"
       :key="dKey"
       class="flex flex-col justify-between h-[234px] my-3 bg-white p-5 rounded-lg shadow-md cursor-pointer"
+      :data-cy="`activity-item-${dKey}`"
       @click="router.push({ name: NAME.DETAIL, params: { id: d.id } })"
     >
       <div>
-        <h3 class="font-bold text-xl">{{ d.title }}</h3>
+        <h3 class="font-bold text-xl" data-cy="activity-item-title">{{ d.title }}</h3>
       </div>
       <div class="flex justify-between items-center">
-        <span class="text-gray-400">{{ dateFormat(d.created_at) }}</span>
+        <span class="text-gray-400" data-cy="activity-item-date">{{ dateFormat(d.created_at) }}</span>
         <button
+          data-cy="activity-item-delete-button"
           @click="$emit('deleteData', d)"
         >
           <img src="/i-trash.svg" alt="icon-trash">
