@@ -47,12 +47,7 @@ interface ToDo {
 
 export default defineComponent({
   components: { AddToDoDialog },
-  props: {
-    data: {
-      type: Array,
-      required: true,
-    }
-  },
+  props: ['data'],
 
   setup(_, context) {
     const showAdd = ref(false);

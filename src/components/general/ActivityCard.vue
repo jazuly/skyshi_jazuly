@@ -28,12 +28,7 @@ import { useRouter } from 'vue-router';
 import { NAME } from "../../routers/enums"
 
 export default defineComponent({
-  props: {
-    data: {
-      type: Array,
-      required: true,
-    }
-  },
+  props: ['data'],
 
   setup() {
     const router = useRouter();

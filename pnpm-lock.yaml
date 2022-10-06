@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@types/lodash': ^4.14.186
   '@types/node': ^18.8.1
   '@vitejs/plugin-vue': ^3.1.0
   autoprefixer: ^10.4.12
@@ -23,6 +24,7 @@ dependencies:
   autoprefixer: 10.4.12_postcss@8.4.17
   axios: 0.27.2
   element-plus: 2.2.17_vue@3.2.40
+  lodash: 4.17.21
   moment: 2.29.4
   postcss: 8.4.17
   tailwindcss: 3.1.8_postcss@8.4.17
@@ -33,9 +35,9 @@ dependencies:
   vuex-module-decorators: 2.0.0_vue@3.2.40+vuex@4.0.2
 
 devDependencies:
+  '@types/lodash': 4.14.186
   '@types/node': 18.8.1
   '@vitejs/plugin-vue': 3.1.2_vite@3.1.4+vue@3.2.40
-  lodash: 4.17.21
   typescript: 4.8.4
   vite: 3.1.4
   vue-tsc: 0.40.13_typescript@4.8.4
@@ -139,7 +141,6 @@ packages:
 
   /@types/lodash/4.14.186:
     resolution: {integrity: sha512-eHcVlLXP0c2FlMPm56ITode2AgLMSa6aJ05JTTbYbI+7EMkCEE5qk2E41d5g2lCVTqRe0GnnRFurmlCsDODrPw==}
-    dev: false
 
   /@types/node/18.8.1:
     resolution: {integrity: sha512-vuYaNuEIbOYLTLUAJh50ezEbvxrD43iby+lpUA2aa148Nh5kX/AVO/9m1Ahmbux2iU5uxJTNF9g2Y+31uml7RQ==}
@@ -852,6 +853,7 @@ packages:
 
   /lodash/4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
+    dev: false
 
   /lru-cache/6.0.0:
     resolution: {integrity: sha512-Jo6dJ04CmSjuznwJSS3pUeWmd/H0ffTlkXXgwZi+eq1UCmqQwCh+eLsYOYCwY991i2Fah4h1BEMCx4qThGbsiA==}
